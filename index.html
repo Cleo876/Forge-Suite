@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Forge Suite - Open Source Tools You Own</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts and Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Base styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Hide body scrollbar when a modal is open */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #2c2c2c; }
+        ::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #777; }
+
+        /* Canvas background */
+        #hero-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        /* Content container to sit on top of the canvas */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+        
+        /* Gradient text (matches Forge splash screens) */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Custom Button Style */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: #f0f0f0;
+            border: 2px solid #667eea;
+        }
+        .btn-outline:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-outline-secondary {
+            background-color: transparent;
+            color: #f0f0f0;
+            border: 2px solid #9ca3af; /* gray-400 */
+        }
+        .btn-outline-secondary:hover {
+            background-color: rgba(156, 163, 175, 0.1);
+            border-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+
+        /* Project/Feature Card Style */
+        .card {
+            background-color: rgba(33, 33, 33, 0.8); /* Slightly transparent */
+            border: 1px solid #444;
+            border-radius: 0.75rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: #667eea;
+        }
+        
+        /* Standard Modal Styles */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background-color: #212121;
+            border: 1px solid #444;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 90%;
+            width: 50rem; /* 800px */
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .modal-backdrop.open .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        /* Custom scrollbar for modals */
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-track { background: #333; }
+        .modal-content::-webkit-scrollbar-thumb { background: #667eea; border-radius: 3px; }
+        .modal-content {
+            scrollbar-width: thin;
+            scrollbar-color: #667eea #333;
+        }
+
+
+        /* NEW: Full-Page Modal ("About" Page) Styles */
+        .page-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 110; /* Higher than standard modal */
+            background-color: #1a1a1a;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+        .page-modal.open {
+            transform: translateX(0);
+        }
+        .page-modal-close-btn {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 120;
+            color: #9ca3af;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .page-modal-close-btn:hover {
+            color: #ffffff;
+        }
+        .page-modal-content {
+            padding: 6rem 1.5rem 3rem;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 6xl;
+        }
+
+    </style>
+</head>
+<body class="bg-[#1a1a1a]">
+
+    <!-- Animated Canvas Background -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+
+        <!-- Header/Navigation -->
+        <header class="fixed top-0 left-0 w-full bg-black bg-opacity-30 backdrop-blur-md z-50 border-b border-gray-800">
+            <nav class="container mx-auto max-w-6xl px-6 py-4 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold gradient-text">{Forge Suite}</a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#mission" class="text-gray-300 hover:text-white transition-colors">Mission</a>
+                    <a href="#projects" class="text-gray-300 hover:text-white transition-colors">Projects</a>
+                    <a href="#solutions" class="text-gray-300 hover:text-white transition-colors">Solutions</a>
+                    <a href="#partners" class="text-gray-300 hover:text-white transition-colors">Partners</a>
+                    <a href="#!" id="about-creator-btn" class="text-gray-300 hover:text-white transition-colors">About</a>
+                </div>
+                <a href="https://github.com/Cleo876/ForgeStudio-" target="_blank" rel="noopener noreferrer" class="btn btn-outline px-4 py-2 text-sm">
+                    <i class="fab fa-github mr-2"></i> GitHub
+                </a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="hero" class="h-screen min-h-[700px] flex items-center justify-center text-center px-6 pt-20">
+            <div class="max-w-4xl">
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white leading-tight mb-6">
+                    Tools You Own. <span class="gradient-text">Forever.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
+                    Welcome to the Forge Suite: A collection of open-source tools built on the principle that you should own and control your software. Our <strong class="text-white">Community Edition</strong> tools are free forever. No servers. No tracking.
+                </p>
+                <a href="#projects" class="btn btn-primary">
+                    Explore The Toolset
+                </a>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section id="mission" class="py-20 sm:py-32 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">A New Philosophy for Software</h2>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto">
+                        Tired of losing access to your tools and data when subscriptions end? The Forge Suite is our answer. Inspired by a call to create lasting value, our <strong class="text-white">Community Edition</strong> tools are distributed as single, self-contained HTML files.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Feature Card 1 -->
+                    <div class="card p-8 text-center">
+                        <div class="text-5xl gradient-text mb-6"><i class="fas fa-server"></i></div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Truly Offline-First</h3>
+                        <p class="text-gray-400">
+                            All tools run entirely in your browser. No internet connection is required after the initial file load. Your work is your own, stored on your machine.
+                        </p>
+                    </div>
+                    <!-- Feature Card 2 -->
+                    <div class="card p-8 text-center">
+                        <div class="text-5xl gradient-text mb-6"><i class="fas fa-code-branch"></i></div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Genuinely Open Source</h3>
+                        <p class="text-gray-400">
+                            Download the HTML file, you own the code. Learn from it, remix it, and even sell your own versions. The tool is yours to command.
+                        </p>
+                    </div>
+                    <!-- Feature Card 3 -->
+                    <div class="card p-8 text-center">
+                        <div class="text-5xl gradient-text mb-6"><i class="fas fa-lock-open"></i></div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Empowerment Over Lock-in</h3>
+                        <p class="text-gray-400">
+                            We challenge the model that revokes your access if you stop paying. Our <strong class="text-white">Community Edition</strong> tools are free forever. You always keep what you have.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 sm:py-32 px-6 bg-[#212121] bg-opacity-50">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">The Forge Toolset</h2>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto">
+                        A growing suite of professional-grade, Community Edition tools.
+                    </p>
+                </div>
+
+                <!-- UPDATED: 2x3 Grid -->
+                <div class="grid md:grid-cols-3 gap-8">
+                    
+                    <!-- Project Card 1: FrameForge -->
+                    <div class="card p-6 flex flex-col">
+                        <h3 class="text-2xl font-bold text-white mb-3">{FrameForge}</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">
+                            Instantly convert HTML & CSS into an interactive, navigable wireframe diagram. Visualize your front-end structure in seconds.
+                        </p>
+                        <a href="https://github.com/Cleo876/FrameForge" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
+                            Download
+                        </a>
+                    </div>
+
+                    <!-- Project Card 2: ERD Forge -->
+                    <div class="card p-6 flex flex-col">
+                        <h3 class="text-2xl font-bold text-white mb-3">{ERD Forge}</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">
+                            Transform complex SQL schemas into professional Chen notation ERDs. The perfect tool for database documentation and design.
+                        </p>
+                        <a href="https://github.com/Cleo876/ERD-Forge" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
+                            Download
+                        </a>
+                    </div>
+
+                    <!-- NEW: Project Card 3: PageForge -->
+                    <div class="card p-6 flex flex-col">
+                        <h3 class="text-2xl font-bold text-white mb-3">{PageForge}</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">
+                            A powerful, offline-first document editor. Structure your thoughts with a draggable hierarchy, manage fonts, and export to multiple formats.
+                        </p>
+                        <a href="https://github.com/Cleo876/Page-Forge-" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
+                            Download
+                        </a>
+                    </div>
+
+                    <!-- NEW: Project Card 4: InvoiceForge -->
+                    <div class="card p-6 flex flex-col">
+                        <h3 class="text-2xl font-bold text-white mb-3">{InvoiceForge}</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">
+                            Create and manage professional invoices with ease. Features a built-in client dashboard, PDF export, and multi-currency support.
+                        </p>
+                        <a href="https://github.com/Cleo876/InvoiceForge" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
+                            Download
+                        </a>
+                    </div>
+                    
+                    <!-- EMPTY PLACEHOLDER CARD (for alignment if needed, or another tool) -->
+                    <div class="card p-6 flex flex-col border-dashed border-gray-700">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-3">{More Tools}</h3>
+                        <p class="text-gray-500 mb-6 flex-grow">
+                            New tools are always in the forge. Follow our progress on GitHub for the next release.
+                        </p>
+                        <a href="httpsa://github.com/Cleo876" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary mt-auto w-full">
+                            Follow on GitHub
+                        </a>
+                    </div>
+
+                    <!-- MODIFIED: Project Card 6: Forge Studio -->
+                    <div class="card p-6 flex flex-col bg-gray-800 border-purple-700 ring-2 ring-purple-600/50">
+                        <h3 class="text-2xl font-bold text-white mb-3">{Forge Studio}</h3>
+                        <p class="text-gray-300 mb-6 flex-grow">
+                            The premium launcher that comes with any tool purchase. It manages, updates, and launches your entire suite.
+                        </p>
+                        <button id="studio-learn-more-btn" class="btn btn-primary mt-auto w-full bg-purple-700 hover:bg-purple-800">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Showcase Section -->
+        <section id="solutions" class="py-20 sm:py-32 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Solutions Showcase</h2>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto">
+                        The Community Edition tools are just the beginning. The Partner Program builds custom, server-powered solutions for your business.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Case Study 1 -->
+                    <div class="card p-8">
+                        <div class="text-5xl gradient-text mb-6"><i class="fas fa-palette"></i></div>
+                        <h3 class="text-2xl font-bold text-white mb-4">For the Creative Agency</h3>
+                        <p class="text-gray-400 mb-6">
+                            A custom-branded <strong class="text-white">FrameForge</strong> for your agency. Allow clients to upload designs, collaborate on wireframes in real-time, and automatically sync with your project management tools.
+                        </p>
+                        <ul class="text-gray-300 space-y-2">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Real-time Team Collaboration</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Custom Branding & Domain</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Asana / Jira Integration</li>
+                        </ul>
+                    </div>
+                    <!-- Case Study 2 -->
+                    <div class="card p-8">
+                        <div class="text-5xl gradient-text mb-6"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="text-2xl font-bold text-white mb-4">For the Enterprise</h3>
+                        <p class="text-gray-400 mb-6">
+                            A secure, internal <strong class="text-white">ERD Forge</strong> hosted on your private cloud. Connects to your production database, syncs documentation, and enforces compliance rules for schema changes.
+                        </p>
+                        <ul class="text-gray-300 space-y-2">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Private Cloud / On-Prem Host</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> SSO / SAML Integration</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Role-Based Access Control</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="#partners" class="btn btn-primary">
+                        See How We Build Your Solution
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Partner Program Section -->
+        <section id="partners" class="py-20 sm:py-32 px-6 bg-[#212121] bg-opacity-50">
+            <div class="container mx-auto max-w-4xl text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Become a <span class="gradient-text">Forge Partner</span></h2>
+                <p class="text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Partnering with us is a way to directly fund our open-source projects, creating a sustainable ecosystem where everyone wins. Let us build the engine; you drive the car.
+                </p>
+                <a href="#!" id="partner-learn-more-btn" class="btn btn-primary">
+                    Learn More About Partnership
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-12 px-6 border-t border-gray-800">
+            <div class="container mx-auto max-w-6xl text-center text-gray-500">
+                <p>&copy; 2025 The Forge Suite. Software built to empower, not to entrap.</p>
+                <p class="mt-2 text-sm">Created by Cleon Williams. <a href="#!" id="about-creator-btn-footer" class="text-gray-400 hover:text-white hover:underline">About the Creator</a>.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- 
+    ============================================================
+    MODAL 1: PARTNER PROGRAM (Standard Floating)
+    ============================================================
+    -->
+    <div id="partner-modal-backdrop" class="modal-backdrop">
+        <div id="partner-modal-content" class="modal-content">
+            <!-- Modal Header -->
+            <div class="flex items-start justify-between p-6 border-b border-gray-700">
+                <h2 class="text-3xl font-bold gradient-text">Join the Forge Partner Program</h2>
+                <button title="Close" class="close-modal-partner text-gray-500 hover:text-white text-4xl font-light leading-none transition-colors -mt-2">&times;</button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-8 space-y-8 max-h-[70vh] overflow-y-auto">
+                <p class="text-lg text-gray-300">
+                    Our Partner Program is the sustainable engine for our open-source mission. It's designed for businesses, agencies, and developers who want to build custom, server-powered solutions on top of the Forge architecture.
+                </p>
+
+                <!-- "Why Partner?" Section -->
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-6 text-center">Why Partner? The Forge Advantage</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Column 1: The DIY Approach -->
+                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+                            <h4 class="text-xl font-semibold text-gray-400 mb-3 text-center">The DIY Approach</h4>
+                            <p class="text-gray-400 text-sm mb-4">You download the Community Edition files and host them yourself.</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center text-red-400"><i class="fas fa-times-circle w-5 mr-2 shrink-0"></i> No server-side features</li>
+                                <li class="flex items-center text-red-400"><i class="fas fa-times-circle w-5 mr-2 shrink-0"></i> 100% of the maintenance burden</li>
+                                <li class="flex items-center text-red-400"><i class="fas fa-times-circle w-5 mr-2 shrink-0"></i> You manage all end-user support</li>
+                                <li class="flex items-center text-red-400"><i class="fas fa-times-circle w-5 mr-2 shrink-0"></i> Isolated from the ecosystem</li>
+                            </ul>
+                        </div>
+                        <!-- Column 2: The Partner Approach -->
+                        <div class="bg-gray-800 p-6 rounded-lg border border-blue-600 ring-2 ring-blue-600/50">
+                            <h4 class="text-xl font-semibold text-white mb-3 text-center">The Partner Approach</h4>
+                            <p class="text-gray-300 text-sm mb-4">We become your technical backend, you focus on your clients.</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> Custom server-side features</li>
+                                <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> We handle maintenance & updates</li>
+                                <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> Priority partner support</li>
+                                <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> Directly fund new open-source tools</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- "Shared Success Model" Section -->
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-6 text-center">Our Shared Success Model</h3>
+                    <p class="text-center text-gray-400 mb-8 max-w-xl mx-auto">This isn't a simple "reseller" program. We become your dedicated technical partner, building and maintaining your custom tool's backend. You pay for this managed service, and in return, you get a scalable product to sell <strong class="text-white">without the maintenance burden.</strong> <strong class="text-white">We handle the architecture; you handle your clients. We only succeed when you succeed.</strong></p>
+                    <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="text-center px-4">
+                            <div class="text-4xl gradient-text"><i class="fas fa-comments"></i></div>
+                            <h4 class="text-lg font-semibold mt-2">1. You Bring the Vision</h4>
+                            <p class="text-sm text-gray-500">Contact us with your client's needs.</p>
+                        </div>
+                        <div class="text-2xl text-gray-700 hidden md:block">&rarr;</div>
+                        <div class="text-center px-4">
+                            <div class="text-4xl gradient-text"><i class="fas fa-cogs"></i></div>
+                            <h4 class="text-lg font-semibold mt-2">2. We Build the Engine</h4>
+                            <p class="text-sm text-gray-500">We co-develop and host the custom features.</p>
+                        </div>
+                        <div class="text-2xl text-gray-700 hidden md:block">&rarr;</div>
+                        <div class="text-center px-4">
+                            <div class="text-4xl gradient-text"><i class="fas fa-handshake"></i></div>
+                            <h4 class="text-lg font-semibold mt-2">3. We Share the Success</h4>
+                            <p class="text-sm text-gray-500">You grow, we grow, and the ecosystem thrives.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-end p-6 border-t border-gray-700 space-x-4 bg-black bg-opacity-20 rounded-b-lg">
+                <button class="close-modal-partner btn btn-outline">Close</button>
+                <a href="mailto:cleowillo@gmail.com?subject=Forge%20Partner%20Program%20Inquiry" class="btn btn-primary">
+                    <i class="fas fa-paper-plane mr-2"></i> Start the Conversation
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    ============================================================
+    MODAL 2: "ABOUT" PAGE (Full Screen Slide-in)
+    ============================================================
+    -->
+    <div id="about-page-modal" class="page-modal">
+        <a href="#!" id="about-modal-close" class="page-modal-close-btn">&larr; Back to Suite</a>
+        <div class="page-modal-content">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl md:text-6xl font-extrabold gradient-text mb-4">The Creator & The Charge</h1>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    A "pragmatic idealist" building tools that empower, not entrap.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <!-- Left Column: The "What" -->
+                <div class="card p-8 border-blue-700">
+                    <h2 class="text-3xl font-bold text-white mb-6">About the Creator</h2>
+                    <div class="space-y-4 text-gray-300">
+                        <p>
+                            The Forge Suite is created and maintained by <strong class="text-white">Cleon Williams</strong>, a developer and engineer with over a decade of experience. His expertise spans from his first skill, web development, to game development and automation systems engineering (n8n).
+                        </p>
+                        <p>
+                            This diverse technical background is united by a core philosophy of "pragmatic idealism" and a passion for <strong class="text-white">technological philanthropy</strong>, with the Forge Suite being his most ambitious philanthropic work to date.
+                        </p>
+                        <p>
+                            The tools you see are a genuine feat of engineering. Creating complex, stateful applications like <strong class="text-white">ERD Forge</strong> and <strong class="text-white">FrameForge</strong> as single, self-contained HTML files is a difficult, "unorthodox" choice, reflecting a deep mastery of browser-native technologies over convenient crutches. This approach isn't a gimmick; it's the core of the mission.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Column: The "Why" -->
+                <div class="card p-8 border-purple-700">
+                    <h2 class="text-3xl font-bold text-white mb-6">The Forge Philosophy</h2>
+                    <div class="space-y-4 text-gray-300">
+                        <p>
+                            The "why" behind Forge is stronger than most. This mission, described by Cleon as a <strong class="text-white">"charge from God,"</strong> is to build tools that empower rather than entrap.
+                        </p>
+                        <p>
+                            It is an active counter-narrative to the dominant "rent-seeking" SaaS model, which often leads to digital dispossession—where your access to your *own work* can be revoked by a price hike or a policy change.
+                        </p>
+                        <p>
+                            The Forge Suite is built on two simple, powerful principles:
+                        </p>
+                        <ul class="text-gray-300 space-y-4 pl-4"> <!-- CHANGED: space-y-2 to space-y-4 -->
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1 shrink-0"></i> <!-- ADDED: shrink-0 -->
+                                <div> <!-- ADDED: wrapper div -->
+                                    <strong class="text-white block mb-1">The Public Good:</strong> <!-- ADDED: block mb-1 -->
+                                    The Community Edition tools are a gift. They are free forever, and by their very architecture, they *cannot* be taken back.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1 shrink-0"></i> <!-- ADDED: shrink-0 -->
+                                <div> <!-- ADDED: wrapper div -->
+                                    <strong class="text-white block mb-1">The Sustainable Engine:</strong> <!-- ADDED: block mb-1 -->
+                                    The Partner Program is the engine that funds the dream. Revenue from businesses who need custom, server-side solutions directly pays for the R&D to create the next generation of open-source tools for everyone.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    ============================================================
+    NEW: MODAL 3: FORGE STUDIO (Standard Floating)
+    ============================================================
+    -->
+    <div id="studio-modal-backdrop" class="modal-backdrop">
+        <div id="studio-modal-content" class="modal-content max-w-2xl"> <!-- Smaller modal -->
+            <!-- Modal Header -->
+            <div class="flex items-start justify-between p-6 border-b border-gray-700">
+                <h2 class="text-3xl font-bold gradient-text">{Forge Studio} &amp; The Supporter Edition</h2>
+                <button title="Close" class="close-modal-studio text-gray-500 hover:text-white text-4xl font-light leading-none transition-colors -mt-2">&times;</button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+                <p class="text-lg text-gray-300">
+                    This is our way of funding the open-source mission. When you <strong class="text-white">purchase a tool</strong> (via Gumroad), you receive the <strong class="text-white">Supporter Edition</strong>, which includes the powerful <strong class="text-white">Forge Studio</strong> launcher.
+                </p>
+                
+                <div class="bg-gray-800 p-6 rounded-lg border border-purple-700">
+                    <h3 class="text-xl font-bold text-white mb-4">Core Benefits:</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-400 mr-3 mt-1 shrink-0"></i>
+                            <div>
+                                <strong class="text-white">True Lifetime Updates</strong>
+                                <p class="text-sm text-gray-400">This is our promise. A <strong class="text-white">one-time purchase</strong> grants you lifetime updates for that tool, all managed through the Studio. No subscriptions.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-400 mr-3 mt-1 shrink-0"></i>
+                            <div>
+                                <strong class="text-white">Non-Destructive & Safe</strong>
+                                <p class="text-sm text-gray-400">Our update system is safe. It downloads new versions <strong class="text-white">separately</strong>, never overriding your existing files. Your custom-modified versions are always protected.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-400 mr-3 mt-1 shrink-0"></i>
+                            <div>
+                                <strong class="text-white">Fund the Mission</strong>
+                                <p class="text-sm text-gray-400">Your purchase directly funds the development of all our open-source Community Edition tools, supporting the entire ecosystem for everyone.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-end p-6 border-t border-gray-700 space-x-4 bg-black bg-opacity-20 rounded-b-lg">
+                <button class="close-modal-studio btn btn-outline">Close</button>
+                <a href="#projects" id="studio-modal-explore" class="btn btn-primary bg-purple-700 hover:bg-purple-800">
+                    <i class="fas fa-shopping-cart mr-2"></i> Find a Tool to Support
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript for Canvas Animation & Modals -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animationFrameId;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth * window.devicePixelRatio;
+                canvas.height = window.innerHeight * window.devicePixelRatio;
+                canvas.style.width = `${window.innerWidth}px`;
+                canvas.style.height = `${window.innerHeight}px`;
+                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            }
+
+            class Particle {
+                constructor(x, y, radius, color, velocity) {
+                    this.x = x;
+                    this.y = y;
+                    this.radius = radius;
+                    this.color = color;
+                    this.velocity = velocity;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                    ctx.closePath();
+                }
+                update() {
+                    this.x += this.velocity.x;
+                    this.y += this.velocity.y;
+                    if (this.x - this.radius <= 0 || this.x + this.radius >= window.innerWidth) {
+                        this.velocity.x = -this.velocity.x;
+                    }
+                    if (this.y - this.radius <= 0 || this.y + this.radius >= window.innerHeight) {
+                        this.velocity.y = -this.velocity.y;
+                    }
+                    this.draw();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                const particleCount = Math.floor((window.innerWidth * window.innerHeight) / 15000);
+                for (let i = 0; i < particleCount; i++) {
+                    const radius = Math.random() * 1.5 + 0.5;
+                    const x = Math.random() * (window.innerWidth - radius * 2) + radius;
+                    const y = Math.random() * (window.innerHeight - radius * 2) + radius;
+                    const color = 'rgba(255, 255, 255, 0.2)';
+                    const velocity = {
+                        x: (Math.random() - 0.5) * 0.3,
+                        y: (Math.random() - 0.5) * 0.3
+                    };
+                    particles.push(new Particle(x, y, radius, color, velocity));
+                }
+            }
+
+            function connectParticles() {
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a + 1; b < particles.length; b++) {
+                        const distance = Math.sqrt(
+                            Math.pow(particles[a].x - particles[b].x, 2) +
+                            Math.pow(particles[a].y - particles[b].y, 2)
+                        );
+                        if (distance < 120) {
+                            const opacity = 1 - (distance / 120);
+                            ctx.strokeStyle = `rgba(102, 126, 234, ${opacity * 0.3})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                            ctx.closePath();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                particles.forEach(particle => particle.update());
+                connectParticles();
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            function startAnimation() {
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+                resizeCanvas();
+                initParticles();
+                animate();
+            }
+
+            function debounce(func, delay) {
+                let timeout;
+                return function(...args) {
+                    const context = this;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(context, args), delay);
+                };
+            }
+
+            window.addEventListener('resize', debounce(startAnimation, 100));
+            startAnimation();
+            
+            // --- Modal Logic ---
+
+            const body = document.body;
+
+            // Partner Modal Elements
+            const partnerBtn = document.getElementById('partner-learn-more-btn');
+            const partnerModalBackdrop = document.getElementById('partner-modal-backdrop');
+            const partnerModalContent = document.getElementById('partner-modal-content');
+            const partnerCloseButtons = document.querySelectorAll('.close-modal-partner');
+
+            // "About" Page Modal Elements
+            const aboutBtn = document.getElementById('about-creator-btn');
+            const aboutBtnFooter = document.getElementById('about-creator-btn-footer');
+            const aboutModal = document.getElementById('about-page-modal');
+            const aboutModalClose = document.getElementById('about-modal-close');
+            
+            // NEW: Studio Modal Elements
+            const studioBtn = document.getElementById('studio-learn-more-btn');
+            const studioModalBackdrop = document.getElementById('studio-modal-backdrop');
+            const studioModalContent = document.getElementById('studio-modal-content');
+            const studioCloseButtons = document.querySelectorAll('.close-modal-studio');
+            const studioModalExploreBtn = document.getElementById('studio-modal-explore');
+
+
+            // --- Generic Modal Functions ---
+            const openModal = (backdrop, content) => {
+                body.classList.add('modal-open');
+                backdrop.classList.remove('invisible'); // Use 'invisible' if that's your starting state
+                backdrop.classList.add('open');
+                if (content) {
+                    content.classList.remove('scale-95', 'opacity-0');
+                }
+            };
+            
+            const closeModal = (backdrop, content) => {
+                body.classList.remove('modal-open');
+                backdrop.classList.remove('open');
+                if (content) {
+                    content.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        backdrop.classList.add('invisible');
+                    }, 300);
+                }
+            };
+
+            // --- Partner Modal ---
+            partnerBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(partnerModalBackdrop, partnerModalContent);
+            });
+            partnerCloseButtons.forEach(btn => btn.addEventListener('click', () => closeModal(partnerModalBackdrop, partnerModalContent)));
+            partnerModalBackdrop.addEventListener('click', (e) => {
+                if (e.target === partnerModalBackdrop) closeModal(partnerModalBackdrop, partnerModalContent);
+            });
+
+            // --- "About" Page Modal ---
+            const openAboutModal = () => {
+                body.classList.add('modal-open');
+                aboutModal.classList.add('open');
+            };
+            const closeAboutModal = () => {
+                body.classList.remove('modal-open');
+                aboutModal.classList.remove('open');
+            };
+            [aboutBtn, aboutBtnFooter].forEach(btn => btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openAboutModal();
+            }));
+            aboutModalClose.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeAboutModal();
+            });
+            
+            // --- NEW: Studio Modal ---
+            studioBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(studioModalBackdrop, studioModalContent);
+            });
+            studioCloseButtons.forEach(btn => btn.addEventListener('click', () => closeModal(studioModalBackdrop, studioModalContent)));
+            studioModalBackdrop.addEventListener('click', (e) => {
+                if (e.target === studioModalBackdrop) closeModal(studioModalBackdrop, studioModalContent);
+            });
+            // Special case for "Explore" button to also close modal
+            studioModalExploreBtn.addEventListener('click', () => closeModal(studioModalBackdrop, studioModalContent));
+
+
+            // --- Global Keydown Listener ---
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (aboutModal.classList.contains('open')) {
+                        closeAboutModal();
+                    } else if (studioModalBackdrop.classList.contains('open')) {
+                        closeModal(studioModalBackdrop, studioModalContent);
+                    } else if (partnerModalBackdrop.classList.contains('open')) {
+                        closeModal(partnerModalBackdrop, partnerModalContent);
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
