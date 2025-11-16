@@ -14,6 +14,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- 
+        Include the favicon of the website, using the logo image as the favicon
+    -->
+    <link rel="icon" href="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" type="image/png">
+
     <style>
         /* Base styles */
         body, html {
@@ -213,7 +218,18 @@
         <!-- Header/Navigation -->
         <header class="fixed top-0 left-0 w-full bg-black bg-opacity-30 backdrop-blur-md z-50 border-b border-gray-800">
             <nav class="container mx-auto max-w-6xl px-6 py-4 flex justify-between items-center">
-                <a href="#" class="text-2xl font-bold gradient-text">{Forge Suite}</a>
+                <!-- MODIFIED: Replaced SVG with <img> tag for your logo -->
+                <a href="#" class="text-2xl font-bold gradient-text flex items-center gap-2">
+                    <!-- 
+                        ACTION REQUIRED: 
+                        1. Upload your new logo ([MOD] Forge Suite Logo Icon.jpg) to your GitHub repository.
+                        2. Get the direct URL for the image (e.g., https://raw.githubusercontent.com/.../logo.jpg).
+                        3. Replace "YOUR_LOGO_URL_HERE.jpg" below with your new URL.
+                    -->
+                    <img src="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" alt="Forge Suite Logo" class="w-7 h-7 object-contain" width="28" height="28" onerror="this.style.display='none'">
+                    <!-- END: Logo -->
+                    <span>{Forge Suite}</span>
+                </a>
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="#mission" class="text-gray-300 hover:text-white transition-colors">Mission</a>
                     <a href="#projects" class="text-gray-300 hover:text-white transition-colors">Projects</a>
