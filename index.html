@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Forge Suite - Open Source Tools You Own</title>
-
+    
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com">
-    </script>
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Fonts and Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Favicon -->
-    <link rel="icon" href="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" type="image/png" />
+    <link rel="icon" href="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" type="image/png">
 
     <style>
         /* Base styles */
-        body,
-        html {
+        body, html {
             margin: 0;
             padding: 0;
             width: 100%;
@@ -39,19 +37,10 @@
         }
 
         /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #2c2c2c;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #555;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #777;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #2c2c2c; }
+        ::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #777; }
 
         /* Canvas background */
         #hero-canvas {
@@ -70,7 +59,7 @@
             z-index: 1;
             width: 100%;
         }
-
+        
         /* Gradient text (matches Forge splash screens) */
         .gradient-text {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -79,43 +68,57 @@
             background-clip: text;
         }
 
-        /* Custom Button Style */
+        /* Custom Button Styles — enriched texture & alignment */
         .btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
             font-weight: 600;
             text-align: center;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            line-height: 1.2;
+            text-decoration: none;
+            border: 2px solid transparent;
+            cursor: pointer;
+            vertical-align: middle;
         }
         .btn-primary {
-            background-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            border-color: transparent;
         }
         .btn-primary:hover {
-            background-color: #764ba2;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a6fd6 0%, #6a3f92 100%);
         }
         .btn-outline {
-            background-color: transparent;
+            background: rgba(255, 255, 255, 0.05);
             color: #f0f0f0;
-            border: 2px solid #667eea;
+            border-color: #667eea;
+            backdrop-filter: blur(4px);
         }
         .btn-outline:hover {
-            background-color: rgba(102, 126, 234, 0.1);
+            background: rgba(102, 126, 234, 0.15);
+            border-color: #8b9cf7;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
         }
         .btn-outline-secondary {
-            background-color: transparent;
+            background: rgba(255, 255, 255, 0.03);
             color: #f0f0f0;
-            border: 2px solid #9ca3af;
+            border-color: #6b7280;
+            backdrop-filter: blur(4px);
         }
         .btn-outline-secondary:hover {
-            background-color: rgba(156, 163, 175, 0.1);
-            border-color: #f0f0f0;
+            background: rgba(156, 163, 175, 0.15);
+            border-color: #9ca3af;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(156, 163, 175, 0.2);
         }
 
         /* Project/Feature Card Style */
@@ -126,29 +129,14 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;        /* NEW: prevent any child overflow */
+            overflow: hidden;
         }
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             border-color: #667eea;
         }
-        .card-studio {
-            background-color: rgba(31, 24, 48, 0.9);
-            border-color: #7c3aed;
-            ring: 2px solid rgba(124, 58, 237, 0.5);
-        }
-        .card-studio:hover {
-            border-color: #8b5cf6;
-        }
-        .card-placeholder {
-            border-style: dashed;
-            border-color: #4b5563;
-        }
-        .card-placeholder:hover {
-            border-color: #6b7280;
-        }
-
+        
         /* Standard Modal Styles */
         .modal-backdrop {
             position: fixed;
@@ -185,16 +173,9 @@
             transform: scale(1);
             opacity: 1;
         }
-        .modal-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        .modal-content::-webkit-scrollbar-track {
-            background: #333;
-        }
-        .modal-content::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 3px;
-        }
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-track { background: #333; }
+        .modal-content::-webkit-scrollbar-thumb { background: #667eea; border-radius: 3px; }
         .modal-content {
             scrollbar-width: thin;
             scrollbar-color: #667eea #333;
@@ -234,7 +215,7 @@
             max-width: 6xl;
         }
 
-        /* ===== CUSTOM TOOLTIP ===== */
+        /* CUSTOM TOOLTIP */
         .btn-tooltip {
             position: relative;
         }
@@ -277,6 +258,23 @@
         .btn-tooltip .tooltip-text {
             transition-delay: 0.05s;
         }
+
+        /* Special card styles */
+        .card-placeholder {
+            border-style: dashed;
+            border-color: #4b5563;
+        }
+        .card-placeholder:hover {
+            border-color: #6b7280;
+        }
+        .card-studio {
+            background-color: rgba(31, 24, 48, 0.9);
+            border-color: #7c3aed;
+            ring: 2px solid rgba(124, 58, 237, 0.5);
+        }
+        .card-studio:hover {
+            border-color: #8b5cf6;
+        }
     </style>
 </head>
 <body class="bg-[#1a1a1a]">
@@ -291,7 +289,7 @@
         <header class="fixed top-0 left-0 w-full bg-black bg-opacity-30 backdrop-blur-md z-50 border-b border-gray-800">
             <nav class="container mx-auto max-w-6xl px-6 py-4 flex justify-between items-center">
                 <a href="#" class="text-2xl font-bold gradient-text flex items-center gap-2">
-                    <img src="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" alt="Forge Suite Logo" class="w-7 h-7 object-contain" width="28" height="28" onerror="this.style.display='none'" />
+                    <img src="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" alt="Forge Suite Logo" class="w-7 h-7 object-contain" width="28" height="28" onerror="this.style.display='none'">
                     <span>{Forge Suite}</span>
                 </a>
                 <div class="hidden md:flex items-center space-x-6">
@@ -331,7 +329,7 @@
                         Tired of losing access to your tools and data when subscriptions end? The Forge Suite is our answer. Inspired by a call to create lasting value, our <strong class="text-white">Community Edition</strong> tools are distributed as single, self-contained HTML files.
                     </p>
                 </div>
-
+                
                 <div class="grid md:grid-cols-3 gap-8">
                     <!-- Feature Card 1 -->
                     <div class="card p-8 text-center">
@@ -371,9 +369,9 @@
                     </p>
                 </div>
 
-                <!-- ===== DYNAMIC GRID ===== -->
+                <!-- Dynamic Grid -->
                 <div id="forge-grid" class="grid md:grid-cols-3 gap-8">
-                    <!-- Cards will be injected here by JavaScript -->
+                    <!-- Cards injected by JavaScript -->
                 </div>
             </div>
         </section>
@@ -387,7 +385,7 @@
                         The Community Edition tools are just the beginning. The Partner Program builds custom, server-powered solutions for your business.
                     </p>
                 </div>
-
+                
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- Case Study 1 -->
                     <div class="card p-8">
@@ -398,7 +396,7 @@
                         </p>
                         <ul class="text-gray-300 space-y-2">
                             <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Real-time Team Collaboration</li>
-                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Custom Branding &amp; Domain</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Custom Branding & Domain</li>
                             <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Asana / Jira Integration</li>
                         </ul>
                     </div>
@@ -423,7 +421,7 @@
                 </div>
             </div>
         </section>
-
+        
         <!-- Partner Program Section -->
         <section id="partners" class="py-20 sm:py-32 px-6 bg-[#212121] bg-opacity-50">
             <div class="container mx-auto max-w-4xl text-center">
@@ -447,30 +445,20 @@
 
     </div>
 
-    <!--
-    ============================================================
-    MODAL 1: PARTNER PROGRAM (Standard Floating)
-    ============================================================
-    -->
+    <!-- ===== MODAL 1: PARTNER PROGRAM ===== -->
     <div id="partner-modal-backdrop" class="modal-backdrop">
         <div id="partner-modal-content" class="modal-content">
-            <!-- Modal Header -->
             <div class="flex items-start justify-between p-6 border-b border-gray-700">
                 <h2 class="text-3xl font-bold gradient-text">Join the Forge Partner Program</h2>
                 <button title="Close" class="close-modal-partner text-gray-500 hover:text-white text-4xl font-light leading-none transition-colors -mt-2">&times;</button>
             </div>
-
-            <!-- Modal Body -->
             <div class="p-8 space-y-8 max-h-[70vh] overflow-y-auto">
                 <p class="text-lg text-gray-300">
                     Our Partner Program is the sustainable engine for our open-source mission. It's designed for businesses, agencies, and developers who want to build custom, server-powered solutions on top of the Forge architecture.
                 </p>
-
-                <!-- "Why Partner?" Section -->
                 <div>
                     <h3 class="text-2xl font-bold text-white mb-6 text-center">Why Partner? The Forge Advantage</h3>
                     <div class="grid md:grid-cols-2 gap-6">
-                        <!-- Column 1: The DIY Approach -->
                         <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
                             <h4 class="text-xl font-semibold text-gray-400 mb-3 text-center">The DIY Approach</h4>
                             <p class="text-gray-400 text-sm mb-4">You download the Community Edition files and host them yourself.</p>
@@ -481,21 +469,18 @@
                                 <li class="flex items-center text-red-400"><i class="fas fa-times-circle w-5 mr-2 shrink-0"></i> Isolated from the ecosystem</li>
                             </ul>
                         </div>
-                        <!-- Column 2: The Partner Approach -->
                         <div class="bg-gray-800 p-6 rounded-lg border border-blue-600 ring-2 ring-blue-600/50">
                             <h4 class="text-xl font-semibold text-white mb-3 text-center">The Partner Approach</h4>
                             <p class="text-gray-300 text-sm mb-4">We become your technical backend, you focus on your clients.</p>
                             <ul class="space-y-2 text-sm">
                                 <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> Custom server-side features</li>
-                                <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> We handle maintenance &amp; updates</li>
+                                <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> We handle maintenance & updates</li>
                                 <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> Priority partner support</li>
                                 <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> Directly fund new open-source tools</li>
                             </ul>
                         </div>
                     </div>
                 </div>
-
-                <!-- "Shared Success Model" Section -->
                 <div>
                     <h3 class="text-2xl font-bold text-white mb-6 text-center">Our Shared Success Model</h3>
                     <p class="text-center text-gray-400 mb-8 max-w-xl mx-auto">This isn't a simple "reseller" program. We become your dedicated technical partner, building and maintaining your custom tool's backend. You pay for this managed service, and in return, you get a scalable product to sell <strong class="text-white">without the maintenance burden.</strong> <strong class="text-white">We handle the architecture; you handle your clients. We only succeed when you succeed.</strong></p>
@@ -520,8 +505,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Modal Footer -->
             <div class="flex items-center justify-end p-6 border-t border-gray-700 space-x-4 bg-black bg-opacity-20 rounded-b-lg">
                 <button class="close-modal-partner btn btn-outline">Close</button>
                 <a href="mailto:cleowillo@gmail.com?subject=Forge%20Partner%20Program%20Inquiry" class="btn btn-primary">
@@ -531,23 +514,17 @@
         </div>
     </div>
 
-    <!--
-    ============================================================
-    MODAL 2: "ABOUT" PAGE (Full Screen Slide-in)
-    ============================================================
-    -->
+    <!-- ===== MODAL 2: ABOUT PAGE ===== -->
     <div id="about-page-modal" class="page-modal">
         <a href="#!" id="about-modal-close" class="page-modal-close-btn">&larr; Back to Suite</a>
         <div class="page-modal-content">
             <div class="text-center mb-16">
-                <h1 class="text-5xl md:text-6xl font-extrabold gradient-text mb-4">The Creator &amp; The Charge</h1>
+                <h1 class="text-5xl md:text-6xl font-extrabold gradient-text mb-4">The Creator & The Charge</h1>
                 <p class="text-xl text-gray-400 max-w-3xl mx-auto">
                     A "pragmatic idealist" building tools that empower, not entrap.
                 </p>
             </div>
-
             <div class="grid md:grid-cols-2 gap-12 items-start">
-                <!-- Left Column: The "What" -->
                 <div class="card p-8 border-blue-700">
                     <h2 class="text-3xl font-bold text-white mb-6">About the Creator</h2>
                     <div class="space-y-4 text-gray-300">
@@ -562,8 +539,6 @@
                         </p>
                     </div>
                 </div>
-
-                <!-- Right Column: The "Why" -->
                 <div class="card p-8 border-purple-700">
                     <h2 class="text-3xl font-bold text-white mb-6">The Forge Philosophy</h2>
                     <div class="space-y-4 text-gray-300">
@@ -571,7 +546,7 @@
                             The "why" behind Forge is stronger than most. This mission, described by Cleon as a <strong class="text-white">"charge from God,"</strong> is to build tools that empower rather than entrap.
                         </p>
                         <p>
-                            It is an active counter-narrative to the dominant "rent-seeking" SaaS model, which often leads to digital dispossession—where your access to your <em>own work</em> can be revoked by a price hike or a policy change.
+                            It is an active counter-narrative to the dominant "rent-seeking" SaaS model, which often leads to digital dispossession—where your access to your *own work* can be revoked by a price hike or a policy change.
                         </p>
                         <p>
                             The Forge Suite is built on two simple, powerful principles:
@@ -581,22 +556,20 @@
                                 <i class="fas fa-check-circle text-green-500 mr-3 mt-1 shrink-0"></i>
                                 <div>
                                     <strong class="text-white block mb-1">The Public Good:</strong>
-                                    The Community Edition tools are a gift. They are free forever, and by their very architecture, they <em>cannot</em> be taken back.
+                                    The Community Edition tools are a gift. They are free forever, and by their very architecture, they *cannot* be taken back.
                                 </div>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check-circle text-green-500 mr-3 mt-1 shrink-0"></i>
                                 <div>
                                     <strong class="text-white block mb-1">The Sustainable Engine:</strong>
-                                    The Partner Program is the engine that funds the dream. Revenue from businesses who need custom, server-side solutions directly pays for the R&amp;D to create the next generation of open-source tools for everyone.
+                                    The Partner Program is the engine that funds the dream. Revenue from businesses who need custom, server-side solutions directly pays for the R&D to create the next generation of open-source tools for everyone.
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-
-            <!-- Why "Forge"? Section -->
             <div class="mt-16">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Why "Forge"?</h2>
@@ -612,29 +585,20 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!--
-    ============================================================
-    MODAL 3: FORGE STUDIO (Standard Floating)
-    ============================================================
-    -->
+    <!-- ===== MODAL 3: FORGE STUDIO ===== -->
     <div id="studio-modal-backdrop" class="modal-backdrop">
         <div id="studio-modal-content" class="modal-content max-w-2xl">
-            <!-- Modal Header -->
             <div class="flex items-start justify-between p-6 border-b border-gray-700">
                 <h2 class="text-3xl font-bold gradient-text">{Forge Studio} &amp; The Supporter Edition</h2>
                 <button title="Close" class="close-modal-studio text-gray-500 hover:text-white text-4xl font-light leading-none transition-colors -mt-2">&times;</button>
             </div>
-
-            <!-- Modal Body -->
             <div class="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
                 <p class="text-lg text-gray-300">
                     This is our way of funding the open-source mission. When you <strong class="text-white">purchase a tool</strong> (via Gumroad), you receive the <strong class="text-white">Supporter Edition</strong>, which includes the powerful <strong class="text-white">Forge Studio</strong> launcher.
                 </p>
-
                 <div class="bg-gray-800 p-6 rounded-lg border border-purple-700">
                     <h3 class="text-xl font-bold text-white mb-4">Core Benefits:</h3>
                     <ul class="space-y-3 text-gray-300">
@@ -648,7 +612,7 @@
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-purple-400 mr-3 mt-1 shrink-0"></i>
                             <div>
-                                <strong class="text-white">Non-Destructive &amp; Safe</strong>
+                                <strong class="text-white">Non-Destructive & Safe</strong>
                                 <p class="text-sm text-gray-400">Our update system is safe. It downloads new versions <strong class="text-white">separately</strong>, never overriding your existing files. Your custom-modified versions are always protected.</p>
                             </div>
                         </li>
@@ -662,8 +626,6 @@
                     </ul>
                 </div>
             </div>
-
-            <!-- Modal Footer -->
             <div class="flex items-center justify-end p-6 border-t border-gray-700 space-x-4 bg-black bg-opacity-20 rounded-b-lg">
                 <button class="close-modal-studio btn btn-outline">Close</button>
                 <a href="#projects" id="studio-modal-explore" class="btn btn-primary bg-purple-700 hover:bg-purple-800">
@@ -673,10 +635,7 @@
         </div>
     </div>
 
-
-    <!-- ============================================================
-    JAVASCRIPT — Canvas Animation, Modals, JSON Grid Loader
-    ============================================================ -->
+    <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -885,7 +844,6 @@
                 });
             }
 
-            // Global Escape key
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     if (aboutModal.classList.contains('open')) {
@@ -900,10 +858,9 @@
 
 
             // ========== FORGE GRID — JSON LOADER WITH FALLBACK ==========
-
             var gridContainer = document.getElementById('forge-grid');
 
-            // ----- FALLBACK DATA (hardcoded cards from the original design) -----
+            // Fallback data
             var fallbackTools = [{
                 name: 'FrameForge',
                 description: 'Instantly convert HTML & CSS into an interactive, navigable wireframe diagram. Visualize your front-end structure in seconds.',
@@ -948,7 +905,6 @@
                 repoText: 'View Repo'
             }];
 
-            // Special cards (hardcoded as before)
             var placeholderCard = {
                 type: 'placeholder',
                 name: 'More Tools',
@@ -961,10 +917,9 @@
                 type: 'studio',
                 name: 'Forge Studio',
                 description: 'The premium launcher that comes with any tool purchase. It manages, updates, and launches your entire suite.',
-                // no repo/launch — uses "Learn More" button
             };
 
-            // ----- RENDER FUNCTION (upgraded) -----
+            // ----- RENDER FUNCTION (with icons & enriched buttons) -----
             function renderGrid(toolsArray) {
                 if (!gridContainer) return;
                 gridContainer.innerHTML = '';
@@ -984,7 +939,6 @@
                     descEl.textContent = tool.description;
                     card.appendChild(descEl);
 
-                    // Only create button wrap if at least one button exists
                     var hasLaunch = tool.launchUrl && tool.launchUrl.trim() !== '';
                     var hasRepo = tool.repoUrl && tool.repoUrl.trim() !== '';
 
@@ -992,18 +946,18 @@
                         var btnWrap = document.createElement('div');
                         btnWrap.className = 'flex flex-col sm:flex-row gap-3 mt-auto w-full';
 
-                        // Launch button
+                        // Launch button with icon
                         if (hasLaunch) {
                             var launchBtn = document.createElement('a');
                             launchBtn.href = tool.launchUrl;
                             launchBtn.target = '_blank';
                             launchBtn.rel = 'noopener noreferrer';
                             launchBtn.className = 'btn btn-outline flex-1 text-center';
-                            launchBtn.textContent = tool.launchText || 'Launch';
+                            launchBtn.innerHTML = '<i class="fas fa-rocket"></i> ' + (tool.launchText || 'Launch');
                             btnWrap.appendChild(launchBtn);
                         }
 
-                        // View Repo button (with tooltip)
+                        // View Repo button with GitHub icon and tooltip
                         if (hasRepo) {
                             var repoBtnWrap = document.createElement('span');
                             repoBtnWrap.className = 'flex-1 btn-tooltip';
@@ -1013,7 +967,7 @@
                             repoBtn.target = '_blank';
                             repoBtn.rel = 'noopener noreferrer';
                             repoBtn.className = 'btn btn-outline w-full text-center';
-                            repoBtn.textContent = tool.repoText || 'View Repo';
+                            repoBtn.innerHTML = '<i class="fab fa-github"></i> ' + (tool.repoText || 'View Repo');
                             repoBtnWrap.appendChild(repoBtn);
 
                             var tip = document.createElement('span');
@@ -1030,20 +984,17 @@
                     gridContainer.appendChild(card);
                 });
 
-                // 2) "More Tools" placeholder card
+                // 2) "More Tools" placeholder
                 var placeholderEl = document.createElement('div');
                 placeholderEl.className = 'card p-6 flex flex-col card-placeholder';
-
                 var phName = document.createElement('h3');
                 phName.className = 'text-2xl font-bold text-gray-600 mb-3';
                 phName.textContent = '{' + placeholderCard.name + '}';
                 placeholderEl.appendChild(phName);
-
                 var phDesc = document.createElement('p');
                 phDesc.className = 'text-gray-500 mb-6 flex-grow';
                 phDesc.textContent = placeholderCard.description;
                 placeholderEl.appendChild(phDesc);
-
                 var phBtn = document.createElement('a');
                 phBtn.href = placeholderCard.repoUrl;
                 phBtn.target = '_blank';
@@ -1051,23 +1002,19 @@
                 phBtn.className = 'btn btn-outline-secondary mt-auto w-full';
                 phBtn.textContent = placeholderCard.repoText;
                 placeholderEl.appendChild(phBtn);
-
                 gridContainer.appendChild(placeholderEl);
 
-                // 3) Forge Studio card (special)
+                // 3) Forge Studio card
                 var studioEl = document.createElement('div');
                 studioEl.className = 'card p-6 flex flex-col bg-gray-800 border-purple-700 ring-2 ring-purple-600/50';
-
                 var stName = document.createElement('h3');
                 stName.className = 'text-2xl font-bold text-white mb-3';
                 stName.textContent = '{' + studioCard.name + '}';
                 studioEl.appendChild(stName);
-
                 var stDesc = document.createElement('p');
                 stDesc.className = 'text-gray-300 mb-6 flex-grow';
                 stDesc.textContent = studioCard.description;
                 studioEl.appendChild(stDesc);
-
                 var stBtn = document.createElement('button');
                 stBtn.id = 'studio-learn-more-btn';
                 stBtn.className = 'btn btn-primary mt-auto w-full bg-purple-700 hover:bg-purple-800';
@@ -1077,7 +1024,6 @@
                     openModal(studioModalBackdrop, studioModalContent);
                 });
                 studioEl.appendChild(stBtn);
-
                 gridContainer.appendChild(studioEl);
             }
 
