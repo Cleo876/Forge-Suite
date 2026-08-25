@@ -3,7 +3,7 @@
     "name": "FrameForge",
     "description": "Instantly convert HTML & CSS into an interactive, navigable wireframe diagram. Visualize your front-end structure in seconds.",
     "repoUrl": "https://github.com/Cleo876/FrameForge",
-    "launchUrl": "https://cleo876.github.io/FrameForge/",
+    "launchUrl": "",
     "launchText": "Launch",
     "repoText": "View Repo"
   },
@@ -11,7 +11,7 @@
     "name": "ERD Forge",
     "description": "Transform complex SQL schemas into professional Chen notation ERDs. The perfect tool for database documentation and design.",
     "repoUrl": "https://github.com/Cleo876/ERD-Forge",
-    "launchUrl": "https://cleo876.github.io/ERD-Forge/",
+    "launchUrl": "",
     "launchText": "Launch",
     "repoText": "View Repo"
   },
@@ -19,7 +19,7 @@
     "name": "PageForge",
     "description": "A powerful, offline-first document editor. Structure your thoughts with a draggable hierarchy, manage fonts, and export to multiple formats.",
     "repoUrl": "https://github.com/Cleo876/Page-Forge-",
-    "launchUrl": "https://cleo876.github.io/Page-Forge-/",
+    "launchUrl": "",
     "launchText": "Launch",
     "repoText": "View Repo"
   },
@@ -27,7 +27,7 @@
     "name": "InvoiceForge",
     "description": "Create and manage professional invoices with ease. Features a built-in client dashboard, PDF export, and multi-currency support.",
     "repoUrl": "https://github.com/Cleo876/InvoiceForge",
-    "launchUrl": "https://cleo876.github.io/InvoiceForge/",
+    "launchUrl": "",
     "launchText": "Launch",
     "repoText": "View Repo"
   },
@@ -35,7 +35,7 @@
     "name": "CaptureForge",
     "description": "A privacy-first, 4K-ready screen recording studio in a single file. Capture video, mix raw audio, and highlight your mouse—all without installation.",
     "repoUrl": "https://github.com/Cleo876/Capture-Forge",
-    "launchUrl": "https://cleo876.github.io/Capture-Forge/",
+    "launchUrl": "",
     "launchText": "Launch",
     "repoText": "View Repo"
   },
@@ -43,7 +43,7 @@
     "name": "QR Forge",
     "description": "Generate high-resolution, tracker-free QR codes instantly. Customize colors and styles entirely in your browser, bypassing commercial paywalls.",
     "repoUrl": "https://github.com/Cleo876/QR-Forge",
-    "launchUrl": "https://cleo876.github.io/QR-Forge/",
+    "launchUrl": "",
     "launchText": "Launch",
     "repoText": "View Repo"
   }
