@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Forge Suite - Open Source Tools You Own</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Fonts and Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- 
-        Include the favicon of the website, using the logo image as the favi
-    -->
-    <link rel="icon" href="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" type="image/png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+
+    <!-- Fonts and Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" type="image/png" />
 
     <style>
         /* Base styles */
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             width: 100%;
@@ -39,10 +39,19 @@
         }
 
         /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #2c2c2c; }
-        ::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #777; }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2c2c2c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #777;
+        }
 
         /* Canvas background */
         #hero-canvas {
@@ -61,7 +70,7 @@
             z-index: 1;
             width: 100%;
         }
-        
+
         /* Gradient text (matches Forge splash screens) */
         .gradient-text {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -101,7 +110,7 @@
         .btn-outline-secondary {
             background-color: transparent;
             color: #f0f0f0;
-            border: 2px solid #9ca3af; /* gray-400 */
+            border: 2px solid #9ca3af;
         }
         .btn-outline-secondary:hover {
             background-color: rgba(156, 163, 175, 0.1);
@@ -109,22 +118,37 @@
             transform: translateY(-2px);
         }
 
-
         /* Project/Feature Card Style */
         .card {
-            background-color: rgba(33, 33, 33, 0.8); /* Slightly transparent */
+            background-color: rgba(33, 33, 33, 0.8);
             border: 1px solid #444;
             border-radius: 0.75rem;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;        /* NEW: prevent any child overflow */
         }
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             border-color: #667eea;
         }
-        
+        .card-studio {
+            background-color: rgba(31, 24, 48, 0.9);
+            border-color: #7c3aed;
+            ring: 2px solid rgba(124, 58, 237, 0.5);
+        }
+        .card-studio:hover {
+            border-color: #8b5cf6;
+        }
+        .card-placeholder {
+            border-style: dashed;
+            border-color: #4b5563;
+        }
+        .card-placeholder:hover {
+            border-color: #6b7280;
+        }
+
         /* Standard Modal Styles */
         .modal-backdrop {
             position: fixed;
@@ -150,7 +174,7 @@
             border-radius: 0.75rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             max-width: 90%;
-            width: 50rem; /* 800px */
+            width: 50rem;
             max-height: 90vh;
             overflow-y: auto;
             transform: scale(0.95);
@@ -161,21 +185,26 @@
             transform: scale(1);
             opacity: 1;
         }
-        /* Custom scrollbar for modals */
-        .modal-content::-webkit-scrollbar { width: 6px; }
-        .modal-content::-webkit-scrollbar-track { background: #333; }
-        .modal-content::-webkit-scrollbar-thumb { background: #667eea; border-radius: 3px; }
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: #333;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
         .modal-content {
             scrollbar-width: thin;
             scrollbar-color: #667eea #333;
         }
 
-
-        /* NEW: Full-Page Modal ("About" Page) Styles */
+        /* Full-Page Modal ("About" Page) Styles */
         .page-modal {
             position: fixed;
             inset: 0;
-            z-index: 110; /* Higher than standard modal */
+            z-index: 110;
             background-color: #1a1a1a;
             transform: translateX(100%);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -205,6 +234,49 @@
             max-width: 6xl;
         }
 
+        /* ===== CUSTOM TOOLTIP ===== */
+        .btn-tooltip {
+            position: relative;
+        }
+        .btn-tooltip .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            width: 220px;
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 400;
+            line-height: 1.4;
+            border: 1px solid #555;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            position: absolute;
+            z-index: 10;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            transition: opacity 0.15s ease, visibility 0.15s ease;
+            pointer-events: none;
+            white-space: normal;
+        }
+        .btn-tooltip .tooltip-text::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #2d2d2d;
+        }
+        .btn-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        .btn-tooltip .tooltip-text {
+            transition-delay: 0.05s;
+        }
     </style>
 </head>
 <body class="bg-[#1a1a1a]">
@@ -218,16 +290,8 @@
         <!-- Header/Navigation -->
         <header class="fixed top-0 left-0 w-full bg-black bg-opacity-30 backdrop-blur-md z-50 border-b border-gray-800">
             <nav class="container mx-auto max-w-6xl px-6 py-4 flex justify-between items-center">
-                <!-- MODIFIED: Replaced SVG with <img> tag for your logo -->
                 <a href="#" class="text-2xl font-bold gradient-text flex items-center gap-2">
-                    <!-- 
-                        ACTION REQUIRED: 
-                        1. Upload your new logo ([MOD] Forge Suite Logo Icon.jpg) to your GitHub repository.
-                        2. Get the direct URL for the image (e.g., https://raw.githubusercontent.com/.../logo.jpg).
-                        3. Replace "YOUR_LOGO_URL_HERE.jpg" below with your new URL.
-                    -->
-                    <img src="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" alt="Forge Suite Logo" class="w-7 h-7 object-contain" width="28" height="28" onerror="this.style.display='none'">
-                    <!-- END: Logo -->
+                    <img src="https://github.com/Cleo876/Forge-Suite/blob/main/%5BMOD%5D%20Forge%20Suite%20Logo%20Icon.png?raw=true" alt="Forge Suite Logo" class="w-7 h-7 object-contain" width="28" height="28" onerror="this.style.display='none'" />
                     <span>{Forge Suite}</span>
                 </a>
                 <div class="hidden md:flex items-center space-x-6">
@@ -267,7 +331,7 @@
                         Tired of losing access to your tools and data when subscriptions end? The Forge Suite is our answer. Inspired by a call to create lasting value, our <strong class="text-white">Community Edition</strong> tools are distributed as single, self-contained HTML files.
                     </p>
                 </div>
-                
+
                 <div class="grid md:grid-cols-3 gap-8">
                     <!-- Feature Card 1 -->
                     <div class="card p-8 text-center">
@@ -307,98 +371,9 @@
                     </p>
                 </div>
 
-                <!-- UPDATED: 2x3 Grid -->
-                <div class="grid md:grid-cols-3 gap-8">
-                    
-                    <!-- Project Card 1: FrameForge -->
-                    <div class="card p-6 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-3">{FrameForge}</h3>
-                        <p class="text-gray-400 mb-6 flex-grow">
-                            Instantly convert HTML & CSS into an interactive, navigable wireframe diagram. Visualize your front-end structure in seconds.
-                        </p>
-                        <a href="https://github.com/Cleo876/FrameForge" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
-                            Download
-                        </a>
-                    </div>
-
-                    <!-- Project Card 2: ERD Forge -->
-                    <div class="card p-6 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-3">{ERD Forge}</h3>
-                        <p class="text-gray-400 mb-6 flex-grow">
-                            Transform complex SQL schemas into professional Chen notation ERDs. The perfect tool for database documentation and design.
-                        </p>
-                        <a href="https://github.com/Cleo876/ERD-Forge" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
-                            Download
-                        </a>
-                    </div>
-
-                    <!-- NEW: Project Card 3: PageForge -->
-                    <div class="card p-6 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-3">{PageForge}</h3>
-                        <p class="text-gray-400 mb-6 flex-grow">
-                            A powerful, offline-first document editor. Structure your thoughts with a draggable hierarchy, manage fonts, and export to multiple formats.
-                        </p>
-                        <a href="https://github.com/Cleo876/Page-Forge-" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
-                            Download
-                        </a>
-                    </div>
-
-                    <!-- NEW: Project Card 4: InvoiceForge -->
-                    <div class="card p-6 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-3">{InvoiceForge}</h3>
-                        <p class="text-gray-400 mb-6 flex-grow">
-                            Create and manage professional invoices with ease. Features a built-in client dashboard, PDF export, and multi-currency support.
-                        </p>
-                        <a href="https://github.com/Cleo876/InvoiceForge" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
-                            Download
-                        </a>
-                    </div>
-
-                    <!-- NEW: Project Card 5: CaptureForge -->
-                    <div class="card p-6 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-3">{CaptureForge}</h3>
-                        <p class="text-gray-400 mb-6 flex-grow">
-                            A privacy-first, 4K-ready screen recording studio in a single file. Capture video, mix raw audio, and highlight your mouse—all without installation.
-                        </p>
-                        <!-- CHANGED: Now links to GitHub Repo like the others -->
-                        <a href="https://github.com/Cleo876/Capture-Forge" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
-                            Download
-                        </a>
-                    </div>
-
-                    <!-- NEW: Project Card 6: QR Forge -->
-                    <div class="card p-6 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-3">{QR Forge}</h3>
-                        <p class="text-gray-400 mb-6 flex-grow">
-                            Generate high-resolution, tracker-free QR codes instantly. Customize colors and styles entirely in your browser, bypassing commercial paywalls.
-                        </p>
-                        <!-- Linking to Repo as requested alternative -->
-                        <a href="https://github.com/Cleo876/QR-Forge" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-auto w-full">
-                            Download
-                        </a>
-                    </div>
-                    
-                    <!-- EMPTY PLACEHOLDER CARD (for alignment if needed, or another tool) -->
-                    <div class="card p-6 flex flex-col border-dashed border-gray-700">
-                        <h3 class="text-2xl font-bold text-gray-600 mb-3">{More Tools}</h3>
-                        <p class="text-gray-500 mb-6 flex-grow">
-                            New tools are always in the forge. Follow our progress on GitHub for the next release.
-                        </p>
-                        <a href="httpsa://github.com/Cleo876" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary mt-auto w-full">
-                            Follow on GitHub
-                        </a>
-                    </div>
-
-                    <!-- MODIFIED: Project Card 6: Forge Studio -->
-                    <div class="card p-6 flex flex-col bg-gray-800 border-purple-700 ring-2 ring-purple-600/50">
-                        <h3 class="text-2xl font-bold text-white mb-3">{Forge Studio}</h3>
-                        <p class="text-gray-300 mb-6 flex-grow">
-                            The premium launcher that comes with any tool purchase. It manages, updates, and launches your entire suite.
-                        </p>
-                        <button id="studio-learn-more-btn" class="btn btn-primary mt-auto w-full bg-purple-700 hover:bg-purple-800">
-                            Learn More
-                        </button>
-                    </div>
+                <!-- ===== DYNAMIC GRID ===== -->
+                <div id="forge-grid" class="grid md:grid-cols-3 gap-8">
+                    <!-- Cards will be injected here by JavaScript -->
                 </div>
             </div>
         </section>
@@ -412,7 +387,7 @@
                         The Community Edition tools are just the beginning. The Partner Program builds custom, server-powered solutions for your business.
                     </p>
                 </div>
-                
+
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- Case Study 1 -->
                     <div class="card p-8">
@@ -423,7 +398,7 @@
                         </p>
                         <ul class="text-gray-300 space-y-2">
                             <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Real-time Team Collaboration</li>
-                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Custom Branding & Domain</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Custom Branding &amp; Domain</li>
                             <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-3"></i> Asana / Jira Integration</li>
                         </ul>
                     </div>
@@ -448,7 +423,7 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- Partner Program Section -->
         <section id="partners" class="py-20 sm:py-32 px-6 bg-[#212121] bg-opacity-50">
             <div class="container mx-auto max-w-4xl text-center">
@@ -472,7 +447,7 @@
 
     </div>
 
-    <!-- 
+    <!--
     ============================================================
     MODAL 1: PARTNER PROGRAM (Standard Floating)
     ============================================================
@@ -512,7 +487,7 @@
                             <p class="text-gray-300 text-sm mb-4">We become your technical backend, you focus on your clients.</p>
                             <ul class="space-y-2 text-sm">
                                 <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> Custom server-side features</li>
-                                <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> We handle maintenance & updates</li>
+                                <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> We handle maintenance &amp; updates</li>
                                 <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> Priority partner support</li>
                                 <li class="flex items-center text-green-400"><i class="fas fa-check-circle w-5 mr-2 shrink-0"></i> Directly fund new open-source tools</li>
                             </ul>
@@ -556,7 +531,7 @@
         </div>
     </div>
 
-    <!-- 
+    <!--
     ============================================================
     MODAL 2: "ABOUT" PAGE (Full Screen Slide-in)
     ============================================================
@@ -565,7 +540,7 @@
         <a href="#!" id="about-modal-close" class="page-modal-close-btn">&larr; Back to Suite</a>
         <div class="page-modal-content">
             <div class="text-center mb-16">
-                <h1 class="text-5xl md:text-6xl font-extrabold gradient-text mb-4">The Creator & The Charge</h1>
+                <h1 class="text-5xl md:text-6xl font-extrabold gradient-text mb-4">The Creator &amp; The Charge</h1>
                 <p class="text-xl text-gray-400 max-w-3xl mx-auto">
                     A "pragmatic idealist" building tools that empower, not entrap.
                 </p>
@@ -596,35 +571,35 @@
                             The "why" behind Forge is stronger than most. This mission, described by Cleon as a <strong class="text-white">"charge from God,"</strong> is to build tools that empower rather than entrap.
                         </p>
                         <p>
-                            It is an active counter-narrative to the dominant "rent-seeking" SaaS model, which often leads to digital dispossession—where your access to your *own work* can be revoked by a price hike or a policy change.
+                            It is an active counter-narrative to the dominant "rent-seeking" SaaS model, which often leads to digital dispossession—where your access to your <em>own work</em> can be revoked by a price hike or a policy change.
                         </p>
                         <p>
                             The Forge Suite is built on two simple, powerful principles:
                         </p>
-                        <ul class="text-gray-300 space-y-4 pl-4"> <!-- CHANGED: space-y-2 to space-y-4 -->
+                        <ul class="text-gray-300 space-y-4 pl-4">
                             <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1 shrink-0"></i> <!-- ADDED: shrink-0 -->
-                                <div> <!-- ADDED: wrapper div -->
-                                    <strong class="text-white block mb-1">The Public Good:</strong> <!-- ADDED: block mb-1 -->
-                                    The Community Edition tools are a gift. They are free forever, and by their very architecture, they *cannot* be taken back.
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1 shrink-0"></i>
+                                <div>
+                                    <strong class="text-white block mb-1">The Public Good:</strong>
+                                    The Community Edition tools are a gift. They are free forever, and by their very architecture, they <em>cannot</em> be taken back.
                                 </div>
                             </li>
                             <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1 shrink-0"></i> <!-- ADDED: shrink-0 -->
-                                <div> <!-- ADDED: wrapper div -->
-                                    <strong class="text-white block mb-1">The Sustainable Engine:</strong> <!-- ADDED: block mb-1 -->
-                                    The Partner Program is the engine that funds the dream. Revenue from businesses who need custom, server-side solutions directly pays for the R&D to create the next generation of open-source tools for everyone.
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1 shrink-0"></i>
+                                <div>
+                                    <strong class="text-white block mb-1">The Sustainable Engine:</strong>
+                                    The Partner Program is the engine that funds the dream. Revenue from businesses who need custom, server-side solutions directly pays for the R&amp;D to create the next generation of open-source tools for everyone.
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
-            </div> <!-- End 2-column grid -->
+            </div>
 
-            <!-- NEW: Why "Forge"? Section -->
+            <!-- Why "Forge"? Section -->
             <div class="mt-16">
                 <div class="text-center mb-8">
-                     <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Why "Forge"?</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Why "Forge"?</h2>
                 </div>
                 <div class="card p-8 max-w-3xl mx-auto border-gray-700">
                     <div class="space-y-4 text-gray-300 text-lg text-center">
@@ -633,21 +608,21 @@
                         </p>
                         <p>
                             This name also extends that power to you, the user. We provide you with your own "forge" to <strong class="text-white">shape and build your ideas</strong> with a guarantee of lasting ownership, free from external control.
-                        </s:p>
+                        </p>
                     </div>
                 </div>
             </div>
 
-        </div> <!-- End page-modal-content -->
+        </div>
     </div>
 
-    <!-- 
+    <!--
     ============================================================
-    NEW: MODAL 3: FORGE STUDIO (Standard Floating)
+    MODAL 3: FORGE STUDIO (Standard Floating)
     ============================================================
     -->
     <div id="studio-modal-backdrop" class="modal-backdrop">
-        <div id="studio-modal-content" class="modal-content max-w-2xl"> <!-- Smaller modal -->
+        <div id="studio-modal-content" class="modal-content max-w-2xl">
             <!-- Modal Header -->
             <div class="flex items-start justify-between p-6 border-b border-gray-700">
                 <h2 class="text-3xl font-bold gradient-text">{Forge Studio} &amp; The Supporter Edition</h2>
@@ -659,7 +634,7 @@
                 <p class="text-lg text-gray-300">
                     This is our way of funding the open-source mission. When you <strong class="text-white">purchase a tool</strong> (via Gumroad), you receive the <strong class="text-white">Supporter Edition</strong>, which includes the powerful <strong class="text-white">Forge Studio</strong> launcher.
                 </p>
-                
+
                 <div class="bg-gray-800 p-6 rounded-lg border border-purple-700">
                     <h3 class="text-xl font-bold text-white mb-4">Core Benefits:</h3>
                     <ul class="space-y-3 text-gray-300">
@@ -673,7 +648,7 @@
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-purple-400 mr-3 mt-1 shrink-0"></i>
                             <div>
-                                <strong class="text-white">Non-Destructive & Safe</strong>
+                                <strong class="text-white">Non-Destructive &amp; Safe</strong>
                                 <p class="text-sm text-gray-400">Our update system is safe. It downloads new versions <strong class="text-white">separately</strong>, never overriding your existing files. Your custom-modified versions are always protected.</p>
                             </div>
                         </li>
@@ -699,203 +674,219 @@
     </div>
 
 
-    <!-- JavaScript for Canvas Animation & Modals -->
+    <!-- ============================================================
+    JAVASCRIPT — Canvas Animation, Modals, JSON Grid Loader
+    ============================================================ -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const canvas = document.getElementById('hero-canvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            let animationFrameId;
+        document.addEventListener('DOMContentLoaded', function() {
 
-            function resizeCanvas() {
-                canvas.width = window.innerWidth * window.devicePixelRatio;
-                canvas.height = window.innerHeight * window.devicePixelRatio;
-                canvas.style.width = `${window.innerWidth}px`;
-                canvas.style.height = `${window.innerHeight}px`;
-                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-            }
+            // ========== CANVAS ANIMATION ==========
+            (function initCanvas() {
+                const canvas = document.getElementById('hero-canvas');
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+                let animationFrameId;
 
-            class Particle {
-                constructor(x, y, radius, color, velocity) {
-                    this.x = x;
-                    this.y = y;
-                    this.radius = radius;
-                    this.color = color;
-                    this.velocity = velocity;
+                function resizeCanvas() {
+                    canvas.width = window.innerWidth * window.devicePixelRatio;
+                    canvas.height = window.innerHeight * window.devicePixelRatio;
+                    canvas.style.width = window.innerWidth + 'px';
+                    canvas.style.height = window.innerHeight + 'px';
+                    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
                 }
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-                    ctx.fillStyle = this.color;
-                    ctx.fill();
-                    ctx.closePath();
-                }
-                update() {
-                    this.x += this.velocity.x;
-                    this.y += this.velocity.y;
-                    if (this.x - this.radius <= 0 || this.x + this.radius >= window.innerWidth) {
-                        this.velocity.x = -this.velocity.x;
+
+                class Particle {
+                    constructor(x, y, radius, color, velocity) {
+                        this.x = x;
+                        this.y = y;
+                        this.radius = radius;
+                        this.color = color;
+                        this.velocity = velocity;
                     }
-                    if (this.y - this.radius <= 0 || this.y + this.radius >= window.innerHeight) {
-                        this.velocity.y = -this.velocity.y;
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                        ctx.fillStyle = this.color;
+                        ctx.fill();
+                        ctx.closePath();
                     }
-                    this.draw();
+                    update() {
+                        this.x += this.velocity.x;
+                        this.y += this.velocity.y;
+                        if (this.x - this.radius <= 0 || this.x + this.radius >= window.innerWidth) {
+                            this.velocity.x = -this.velocity.x;
+                        }
+                        if (this.y - this.radius <= 0 || this.y + this.radius >= window.innerHeight) {
+                            this.velocity.y = -this.velocity.y;
+                        }
+                        this.draw();
+                    }
                 }
-            }
 
-            function initParticles() {
-                particles = [];
-                const particleCount = Math.floor((window.innerWidth * window.innerHeight) / 15000);
-                for (let i = 0; i < particleCount; i++) {
-                    const radius = Math.random() * 1.5 + 0.5;
-                    const x = Math.random() * (window.innerWidth - radius * 2) + radius;
-                    const y = Math.random() * (window.innerHeight - radius * 2) + radius;
-                    const color = 'rgba(255, 255, 255, 0.2)';
-                    const velocity = {
-                        x: (Math.random() - 0.5) * 0.3,
-                        y: (Math.random() - 0.5) * 0.3
-                    };
-                    particles.push(new Particle(x, y, radius, color, velocity));
+                function initParticles() {
+                    particles = [];
+                    const particleCount = Math.floor((window.innerWidth * window.innerHeight) / 15000);
+                    for (let i = 0; i < particleCount; i++) {
+                        const radius = Math.random() * 1.5 + 0.5;
+                        const x = Math.random() * (window.innerWidth - radius * 2) + radius;
+                        const y = Math.random() * (window.innerHeight - radius * 2) + radius;
+                        const color = 'rgba(255, 255, 255, 0.2)';
+                        const velocity = {
+                            x: (Math.random() - 0.5) * 0.3,
+                            y: (Math.random() - 0.5) * 0.3
+                        };
+                        particles.push(new Particle(x, y, radius, color, velocity));
+                    }
                 }
-            }
 
-            function connectParticles() {
-                for (let a = 0; a < particles.length; a++) {
-                    for (let b = a + 1; b < particles.length; b++) {
-                        const distance = Math.sqrt(
-                            Math.pow(particles[a].x - particles[b].x, 2) +
-                            Math.pow(particles[a].y - particles[b].y, 2)
-                        );
-                        if (distance < 120) {
-                            const opacity = 1 - (distance / 120);
-                            ctx.strokeStyle = `rgba(102, 126, 234, ${opacity * 0.3})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.beginPath();
-                            ctx.moveTo(particles[a].x, particles[a].y);
-                            ctx.lineTo(particles[b].x, particles[b].y);
-                            ctx.stroke();
-                            ctx.closePath();
+                function connectParticles() {
+                    for (let a = 0; a < particles.length; a++) {
+                        for (let b = a + 1; b < particles.length; b++) {
+                            const distance = Math.sqrt(
+                                Math.pow(particles[a].x - particles[b].x, 2) +
+                                Math.pow(particles[a].y - particles[b].y, 2)
+                            );
+                            if (distance < 120) {
+                                const opacity = 1 - (distance / 120);
+                                ctx.strokeStyle = 'rgba(102, 126, 234, ' + (opacity * 0.3) + ')';
+                                ctx.lineWidth = 0.5;
+                                ctx.beginPath();
+                                ctx.moveTo(particles[a].x, particles[a].y);
+                                ctx.lineTo(particles[b].x, particles[b].y);
+                                ctx.stroke();
+                                ctx.closePath();
+                            }
                         }
                     }
                 }
-            }
 
-            function animate() {
-                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-                particles.forEach(particle => particle.update());
-                connectParticles();
-                animationFrameId = requestAnimationFrame(animate);
-            }
-
-            function startAnimation() {
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
+                function animate() {
+                    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                    particles.forEach(function(p) { p.update(); });
+                    connectParticles();
+                    animationFrameId = requestAnimationFrame(animate);
                 }
-                resizeCanvas();
-                initParticles();
-                animate();
-            }
 
-            function debounce(func, delay) {
-                let timeout;
-                return function(...args) {
-                    const context = this;
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => func.apply(context, args), delay);
-                };
-            }
+                function startAnimation() {
+                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                    resizeCanvas();
+                    initParticles();
+                    animate();
+                }
 
-            window.addEventListener('resize', debounce(startAnimation, 100));
-            startAnimation();
-            
-            // --- Modal Logic ---
+                function debounce(func, delay) {
+                    var timeout;
+                    return function() {
+                        var context = this;
+                        var args = arguments;
+                        clearTimeout(timeout);
+                        timeout = setTimeout(function() { func.apply(context, args); }, delay);
+                    };
+                }
 
-            const body = document.body;
-
-            // Partner Modal Elements
-            const partnerBtn = document.getElementById('partner-learn-more-btn');
-            const partnerModalBackdrop = document.getElementById('partner-modal-backdrop');
-            const partnerModalContent = document.getElementById('partner-modal-content');
-            const partnerCloseButtons = document.querySelectorAll('.close-modal-partner');
-
-            // "About" Page Modal Elements
-            const aboutBtn = document.getElementById('about-creator-btn');
-            const aboutBtnFooter = document.getElementById('about-creator-btn-footer');
-            const aboutModal = document.getElementById('about-page-modal');
-            const aboutModalClose = document.getElementById('about-modal-close');
-            
-            // NEW: Studio Modal Elements
-            const studioBtn = document.getElementById('studio-learn-more-btn');
-            const studioModalBackdrop = document.getElementById('studio-modal-backdrop');
-            const studioModalContent = document.getElementById('studio-modal-content');
-            const studioCloseButtons = document.querySelectorAll('.close-modal-studio');
-            const studioModalExploreBtn = document.getElementById('studio-modal-explore');
+                window.addEventListener('resize', debounce(startAnimation, 100));
+                startAnimation();
+            })();
 
 
-            // --- Generic Modal Functions ---
-            const openModal = (backdrop, content) => {
+            // ========== MODAL LOGIC ==========
+            var body = document.body;
+
+            // Partner Modal
+            var partnerBtn = document.getElementById('partner-learn-more-btn');
+            var partnerModalBackdrop = document.getElementById('partner-modal-backdrop');
+            var partnerModalContent = document.getElementById('partner-modal-content');
+            var partnerCloseButtons = document.querySelectorAll('.close-modal-partner');
+
+            function openModal(backdrop, content) {
                 body.classList.add('modal-open');
-                backdrop.classList.remove('invisible'); // Use 'invisible' if that's your starting state
                 backdrop.classList.add('open');
-                if (content) {
-                    content.classList.remove('scale-95', 'opacity-0');
-                }
-            };
-            
-            const closeModal = (backdrop, content) => {
+            }
+
+            function closeModal(backdrop, content) {
                 body.classList.remove('modal-open');
                 backdrop.classList.remove('open');
-                if (content) {
-                    content.classList.add('scale-95', 'opacity-0');
-                    setTimeout(() => {
-                        backdrop.classList.add('invisible');
-                    }, 300);
-                }
-            };
+            }
 
-            // --- Partner Modal ---
-            partnerBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openModal(partnerModalBackdrop, partnerModalContent);
+            if (partnerBtn) {
+                partnerBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openModal(partnerModalBackdrop, partnerModalContent);
+                });
+            }
+            partnerCloseButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    closeModal(partnerModalBackdrop, partnerModalContent);
+                });
             });
-            partnerCloseButtons.forEach(btn => btn.addEventListener('click', () => closeModal(partnerModalBackdrop, partnerModalContent)));
-            partnerModalBackdrop.addEventListener('click', (e) => {
+            partnerModalBackdrop.addEventListener('click', function(e) {
                 if (e.target === partnerModalBackdrop) closeModal(partnerModalBackdrop, partnerModalContent);
             });
 
-            // --- "About" Page Modal ---
-            const openAboutModal = () => {
+            // About Page Modal
+            var aboutBtn = document.getElementById('about-creator-btn');
+            var aboutBtnFooter = document.getElementById('about-creator-btn-footer');
+            var aboutModal = document.getElementById('about-page-modal');
+            var aboutModalClose = document.getElementById('about-modal-close');
+
+            function openAboutModal() {
                 body.classList.add('modal-open');
                 aboutModal.classList.add('open');
-            };
-            const closeAboutModal = () => {
+            }
+
+            function closeAboutModal() {
                 body.classList.remove('modal-open');
                 aboutModal.classList.remove('open');
-            };
-            [aboutBtn, aboutBtnFooter].forEach(btn => btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openAboutModal();
-            }));
-            aboutModalClose.addEventListener('click', (e) => {
-                e.preventDefault();
-                closeAboutModal();
+            }
+
+            if (aboutBtn) {
+                aboutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openAboutModal();
+                });
+            }
+            if (aboutBtnFooter) {
+                aboutBtnFooter.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openAboutModal();
+                });
+            }
+            if (aboutModalClose) {
+                aboutModalClose.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    closeAboutModal();
+                });
+            }
+
+            // Studio Modal
+            var studioBtn = document.getElementById('studio-learn-more-btn');
+            var studioModalBackdrop = document.getElementById('studio-modal-backdrop');
+            var studioModalContent = document.getElementById('studio-modal-content');
+            var studioCloseButtons = document.querySelectorAll('.close-modal-studio');
+            var studioModalExploreBtn = document.getElementById('studio-modal-explore');
+
+            if (studioBtn) {
+                studioBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openModal(studioModalBackdrop, studioModalContent);
+                });
+            }
+            studioCloseButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    closeModal(studioModalBackdrop, studioModalContent);
+                });
             });
-            
-            // --- NEW: Studio Modal ---
-            studioBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openModal(studioModalBackdrop, studioModalContent);
-            });
-            studioCloseButtons.forEach(btn => btn.addEventListener('click', () => closeModal(studioModalBackdrop, studioModalContent)));
-            studioModalBackdrop.addEventListener('click', (e) => {
+            studioModalBackdrop.addEventListener('click', function(e) {
                 if (e.target === studioModalBackdrop) closeModal(studioModalBackdrop, studioModalContent);
             });
-            // Special case for "Explore" button to also close modal
-            studioModalExploreBtn.addEventListener('click', () => closeModal(studioModalBackdrop, studioModalContent));
+            if (studioModalExploreBtn) {
+                studioModalExploreBtn.addEventListener('click', function() {
+                    closeModal(studioModalBackdrop, studioModalContent);
+                });
+            }
 
-
-            // --- Global Keydown Listener ---
-            document.addEventListener('keydown', (e) => {
+            // Global Escape key
+            document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     if (aboutModal.classList.contains('open')) {
                         closeAboutModal();
@@ -906,6 +897,215 @@
                     }
                 }
             });
+
+
+            // ========== FORGE GRID — JSON LOADER WITH FALLBACK ==========
+
+            var gridContainer = document.getElementById('forge-grid');
+
+            // ----- FALLBACK DATA (hardcoded cards from the original design) -----
+            var fallbackTools = [{
+                name: 'FrameForge',
+                description: 'Instantly convert HTML & CSS into an interactive, navigable wireframe diagram. Visualize your front-end structure in seconds.',
+                repoUrl: 'https://github.com/Cleo876/FrameForge',
+                launchUrl: 'https://cleo876.github.io/FrameForge/',
+                launchText: 'Launch',
+                repoText: 'View Repo'
+            }, {
+                name: 'ERD Forge',
+                description: 'Transform complex SQL schemas into professional Chen notation ERDs. The perfect tool for database documentation and design.',
+                repoUrl: 'https://github.com/Cleo876/ERD-Forge',
+                launchUrl: 'https://cleo876.github.io/ERD-Forge/',
+                launchText: 'Launch',
+                repoText: 'View Repo'
+            }, {
+                name: 'PageForge',
+                description: 'A powerful, offline-first document editor. Structure your thoughts with a draggable hierarchy, manage fonts, and export to multiple formats.',
+                repoUrl: 'https://github.com/Cleo876/Page-Forge-',
+                launchUrl: 'https://cleo876.github.io/Page-Forge-/',
+                launchText: 'Launch',
+                repoText: 'View Repo'
+            }, {
+                name: 'InvoiceForge',
+                description: 'Create and manage professional invoices with ease. Features a built-in client dashboard, PDF export, and multi-currency support.',
+                repoUrl: 'https://github.com/Cleo876/InvoiceForge',
+                launchUrl: 'https://cleo876.github.io/InvoiceForge/',
+                launchText: 'Launch',
+                repoText: 'View Repo'
+            }, {
+                name: 'CaptureForge',
+                description: 'A privacy-first, 4K-ready screen recording studio in a single file. Capture video, mix raw audio, and highlight your mouse—all without installation.',
+                repoUrl: 'https://github.com/Cleo876/Capture-Forge',
+                launchUrl: 'https://cleo876.github.io/Capture-Forge/',
+                launchText: 'Launch',
+                repoText: 'View Repo'
+            }, {
+                name: 'QR Forge',
+                description: 'Generate high-resolution, tracker-free QR codes instantly. Customize colors and styles entirely in your browser, bypassing commercial paywalls.',
+                repoUrl: 'https://github.com/Cleo876/QR-Forge',
+                launchUrl: 'https://cleo876.github.io/QR-Forge/',
+                launchText: 'Launch',
+                repoText: 'View Repo'
+            }];
+
+            // Special cards (hardcoded as before)
+            var placeholderCard = {
+                type: 'placeholder',
+                name: 'More Tools',
+                description: 'New tools are always in the forge. Follow our progress on GitHub for the next release.',
+                repoUrl: 'https://github.com/Cleo876',
+                repoText: 'Follow on GitHub'
+            };
+
+            var studioCard = {
+                type: 'studio',
+                name: 'Forge Studio',
+                description: 'The premium launcher that comes with any tool purchase. It manages, updates, and launches your entire suite.',
+                // no repo/launch — uses "Learn More" button
+            };
+
+            // ----- RENDER FUNCTION (upgraded) -----
+            function renderGrid(toolsArray) {
+                if (!gridContainer) return;
+                gridContainer.innerHTML = '';
+
+                // 1) Regular tools
+                toolsArray.forEach(function(tool) {
+                    var card = document.createElement('div');
+                    card.className = 'card p-6 flex flex-col';
+
+                    var nameEl = document.createElement('h3');
+                    nameEl.className = 'text-2xl font-bold text-white mb-3';
+                    nameEl.textContent = '{' + tool.name + '}';
+                    card.appendChild(nameEl);
+
+                    var descEl = document.createElement('p');
+                    descEl.className = 'text-gray-400 mb-6 flex-grow';
+                    descEl.textContent = tool.description;
+                    card.appendChild(descEl);
+
+                    // Only create button wrap if at least one button exists
+                    var hasLaunch = tool.launchUrl && tool.launchUrl.trim() !== '';
+                    var hasRepo = tool.repoUrl && tool.repoUrl.trim() !== '';
+
+                    if (hasLaunch || hasRepo) {
+                        var btnWrap = document.createElement('div');
+                        btnWrap.className = 'flex flex-col sm:flex-row gap-3 mt-auto w-full';
+
+                        // Launch button
+                        if (hasLaunch) {
+                            var launchBtn = document.createElement('a');
+                            launchBtn.href = tool.launchUrl;
+                            launchBtn.target = '_blank';
+                            launchBtn.rel = 'noopener noreferrer';
+                            launchBtn.className = 'btn btn-outline flex-1 text-center';
+                            launchBtn.textContent = tool.launchText || 'Launch';
+                            btnWrap.appendChild(launchBtn);
+                        }
+
+                        // View Repo button (with tooltip)
+                        if (hasRepo) {
+                            var repoBtnWrap = document.createElement('span');
+                            repoBtnWrap.className = 'flex-1 btn-tooltip';
+
+                            var repoBtn = document.createElement('a');
+                            repoBtn.href = tool.repoUrl;
+                            repoBtn.target = '_blank';
+                            repoBtn.rel = 'noopener noreferrer';
+                            repoBtn.className = 'btn btn-outline w-full text-center';
+                            repoBtn.textContent = tool.repoText || 'View Repo';
+                            repoBtnWrap.appendChild(repoBtn);
+
+                            var tip = document.createElement('span');
+                            tip.className = 'tooltip-text';
+                            tip.textContent = 'Download the file directly from the repository';
+                            repoBtnWrap.appendChild(tip);
+
+                            btnWrap.appendChild(repoBtnWrap);
+                        }
+
+                        card.appendChild(btnWrap);
+                    }
+
+                    gridContainer.appendChild(card);
+                });
+
+                // 2) "More Tools" placeholder card
+                var placeholderEl = document.createElement('div');
+                placeholderEl.className = 'card p-6 flex flex-col card-placeholder';
+
+                var phName = document.createElement('h3');
+                phName.className = 'text-2xl font-bold text-gray-600 mb-3';
+                phName.textContent = '{' + placeholderCard.name + '}';
+                placeholderEl.appendChild(phName);
+
+                var phDesc = document.createElement('p');
+                phDesc.className = 'text-gray-500 mb-6 flex-grow';
+                phDesc.textContent = placeholderCard.description;
+                placeholderEl.appendChild(phDesc);
+
+                var phBtn = document.createElement('a');
+                phBtn.href = placeholderCard.repoUrl;
+                phBtn.target = '_blank';
+                phBtn.rel = 'noopener noreferrer';
+                phBtn.className = 'btn btn-outline-secondary mt-auto w-full';
+                phBtn.textContent = placeholderCard.repoText;
+                placeholderEl.appendChild(phBtn);
+
+                gridContainer.appendChild(placeholderEl);
+
+                // 3) Forge Studio card (special)
+                var studioEl = document.createElement('div');
+                studioEl.className = 'card p-6 flex flex-col bg-gray-800 border-purple-700 ring-2 ring-purple-600/50';
+
+                var stName = document.createElement('h3');
+                stName.className = 'text-2xl font-bold text-white mb-3';
+                stName.textContent = '{' + studioCard.name + '}';
+                studioEl.appendChild(stName);
+
+                var stDesc = document.createElement('p');
+                stDesc.className = 'text-gray-300 mb-6 flex-grow';
+                stDesc.textContent = studioCard.description;
+                studioEl.appendChild(stDesc);
+
+                var stBtn = document.createElement('button');
+                stBtn.id = 'studio-learn-more-btn';
+                stBtn.className = 'btn btn-primary mt-auto w-full bg-purple-700 hover:bg-purple-800';
+                stBtn.textContent = 'Learn More';
+                stBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openModal(studioModalBackdrop, studioModalContent);
+                });
+                studioEl.appendChild(stBtn);
+
+                gridContainer.appendChild(studioEl);
+            }
+
+
+            // ----- FETCH JSON WITH FALLBACK -----
+            var jsonUrl = 'tools/forge-list.json';
+
+            function loadFromJson() {
+                fetch(jsonUrl)
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('HTTP ' + response.status);
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        if (Array.isArray(data) && data.length > 0) {
+                            renderGrid(data);
+                        } else {
+                            throw new Error('Invalid JSON format');
+                        }
+                    })
+                    .catch(function(err) {
+                        console.warn('Forge: Could not load forge-list.json, using fallback.', err);
+                        renderGrid(fallbackTools);
+                    });
+            }
+
+            loadFromJson();
+
         });
     </script>
 
