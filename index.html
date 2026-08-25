@@ -984,7 +984,7 @@
                     gridContainer.appendChild(card);
                 });
 
-                // 2) "More Tools" placeholder
+                // 2) "More Tools" placeholder (always shown)
                 var placeholderEl = document.createElement('div');
                 placeholderEl.className = 'card p-6 flex flex-col card-placeholder';
                 var phName = document.createElement('h3');
@@ -1004,7 +1004,7 @@
                 placeholderEl.appendChild(phBtn);
                 gridContainer.appendChild(placeholderEl);
 
-                // 3) Forge Studio card
+                // 3) Forge Studio card (always shown)
                 var studioEl = document.createElement('div');
                 studioEl.className = 'card p-6 flex flex-col bg-gray-800 border-purple-700 ring-2 ring-purple-600/50';
                 var stName = document.createElement('h3');
@@ -1029,7 +1029,8 @@
 
 
             // ----- FETCH JSON WITH FALLBACK -----
-            var jsonUrl = 'tools/forge-list.json';
+            // Updated to raw GitHub URL
+            var jsonUrl = 'https://raw.githubusercontent.com/Cleo876/Forge-Suite/main/tools/forge-list.json';
 
             function loadFromJson() {
                 fetch(jsonUrl)
