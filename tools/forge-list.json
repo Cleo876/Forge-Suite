@@ -46,5 +46,13 @@
     "launchUrl": "",
     "launchText": "Launch",
     "repoText": "View Repo"
-  }
+  },
+  {
+    "name": "WASM Video Editor",
+    "description": "A professional-grade, client-side Non-Linear Video Editor built with WebAssembly (FFmpeg) and JavaScript. Features real-time Canvas compositing, a multi-track timeline, and a highly modular, hot-pluggable extension ecosystem.",
+    "repoUrl": "https://cleo876.github.io/wasm-video-editor/landing",
+    "launchUrl": "https://cleo876.github.io/wasm-video-editor/",
+    "launchText": "Launch",
+    "repoText": "View Site"
+  },
 ]
